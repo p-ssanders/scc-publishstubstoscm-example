@@ -1,0 +1,20 @@
+description: Example contract for the event published to RabbitMQ when primary entity state changes
+label: publish_primaryentity_event
+input:
+  triggeredBy: publishEvent()
+outputMessage:
+  sentTo: provider-driven-contracts-demo-primaryentity-events
+  headers:
+    contentType: application/json
+    __TypeId__: com.customer.primaryentity.PrimaryEntityEvent
+  body:
+    uri: https://provider-driven-contracts-demo.customer.como/primary-entities/1
+    eventCreatedInstant: 1234567890.012345678
+  matchers:
+    body:
+      - path: $.uri
+        type: by_regex
+        predefined: url
+      - path: $.eventCreatedInstant
+        type: by_regex
+        predefined: iso_8601_with_offset
